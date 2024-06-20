@@ -1,0 +1,140 @@
+/* Variables de tema */
+:root {
+    --color-darkest: #343a40;
+    --color-dark: #495057;
+    --color-medium: #ced4da;
+    --color-light: #f1f3f5;
+    --color-theme: #1098ad;
+    --color-accent: #ffa94d;
+    --font-base: 16px;
+}
+
+/* Configuración de fuentes y tipografía */
+body {
+    font-size: var(--font-base);
+    font-family: Arial, sans-serif;
+    color: var(--color-darkest);
+    background-color: var(--color-light);
+}
+
+/* Estilos generales */
+.app {
+    padding-top: 150px !important;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    /* Ajusta según tus necesidades */
+    padding: 20px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+    margin: auto;
+    /* Centra el contenedor */
+    background-color: var(--color-light);
+}
+
+.headerWrapper {
+    position: static;
+    /* No es necesario posicionamiento relativo */
+    margin-bottom: 30px;
+    width: 100%;
+    display: block;
+    text-align: center;
+    /* Centra el contenido de headerWrapper */
+}
+
+/* Estilos de botones */
+.btn {
+    display: inline-block;
+    padding: 10px 20px;
+    border-radius: 5px;
+    border: none;
+    background-color: var(--color-dark);
+    color: var(--color-light);
+    font-size: 1rem;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+    text-align: center;
+    /* Asegura que el texto esté centrado */
+}
+
+.btn:hover {
+    background-color: var(--color-darkest);
+}
+
+.btn-option {
+    width: 100%;
+    /* Mantén este ancho */
+    margin-bottom: 10px;
+    text-align: left;
+    padding: 10px;
+}
+.date-picker-wrapper .date-picker {
+    width: 100% !important;
+    /* Mantén el tamaño del calendario */
+    height: auto !important;
+    padding: 10px !important;
+    border: 1px solid var(--color-medium) !important;
+    border-radius: 5px !important;
+    box-shadow: inset 0 1px 3px rgba(0, 0, 0, 0.1) !important;
+    background-color: var(--color-light) !important;
+}
+
+.date-picker-wrapper .date-picker select {
+    /* Estilos para los selectores de años y meses */
+    font-size: 1rem !important;
+    padding: 5px !important;
+    border-radius: 5px !important;
+    border: 1px solid var(--color-medium) !important;
+    background-color: var(--color-light) !important;
+    color: var(--color-darkest) !important;
+}
+
+.date-picker-wrapper .date-picker .react-datepicker__year-dropdown {
+    /* Personaliza el estilo del dropdown de año */
+    max-height: 150px !important;
+    /* Limita la altura máxima del menú desplegable */
+    overflow-y: auto !important;
+    /* Permite el desplazamiento vertical si es necesario */
+}
+
+.date-picker-wrapper .date-picker .react-datepicker__month-dropdown {
+    /* Personaliza el estilo del dropdown de mes */
+    max-height: 150px !important;
+    /* Limita la altura máxima del menú desplegable */
+    overflow-y: auto !important;
+    /* Permite el desplazamiento vertical si es necesario */
+}
+
+.date-picker-wrapper .date-picker .react-datepicker__month-dropdown,
+.date-picker-wrapper .date-picker .react-datepicker__year-dropdown {
+    /* Configuración de estilos compartidos para los dropdowns */
+    padding: 5px !important;
+    border-radius: 5px !important;
+    background-color: var(--color-light) !important;
+    border: 1px solid var(--color-medium) !important;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+}
+
+.date-picker-wrapper .date-picker .react-datepicker__month-container {
+    display: flex !important;
+    /* Cambia a flex para controlar mejor el contenido */
+    justify-content: center !important;
+    /* Centra el contenido */
+    align-items: center !important;
+    /* Centra el contenido verticalmente */
+    padding: 10px !important;
+    /* Espacio interno alrededor del contenedor */
+    border-radius: 5px !important;
+    /* Borde redondeado */
+    background-color: #fff !important;
+    /* Fondo blanco */
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    /* Sombra sutil */
+    max-height: 150px !important;
+    /* Establece una altura máxima */
+    overflow-y: auto !important;
+    /* Permite el desplazamiento vertical si el contenido excede la altura */
+}

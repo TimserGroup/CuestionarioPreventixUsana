@@ -1,0 +1,466 @@
+// Definir colores y variables comunes
+$white: white;
+$black: #555;
+$grey: #eee;
+$green: hsl(165, 60%, 50%);
+$dark-green: hsl(165, 80%, 35%);
+$blue: #BD4C7f;
+$pink: #BD4C7f;
+$font: 'Nunito', sans-serif;
+$font-textbox: 'Arimo', sans-serif;
+$short: 200ms;
+$medium: 400ms;
+$long: 1s;
+$shadow-low: 0 0.1rem 0.5rem rgba($dark-green, 1);
+$shadow-mid: 0 0.3rem 1rem rgba($dark-green, 0.5);
+$shadow-high: 0 1rem 3rem rgba($dark-green, 0.3);
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Open Sans", "Helvetica Neue", sans-serif;
+}
+
+body {
+    background-image: url(/public/BG.png);
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+}
+
+.container {
+    padding: 0 100px;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 50px;
+    }
+    .question {
+      font-size: 24px;
+      font-weight: bold;
+      margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 0 20px;
+    }
+    .logos {
+      flex-direction: column;
+      gap: 10px;
+  }
+  .question {
+    font-size: 18px;
+    font-weight: bold;
+    margin-bottom: 20px;
+}
+
+  .logo-img {
+      max-width: 150px; // Puedes ajustar esto según sea necesario
+  }
+}
+
+.appointment-page {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    min-height: 100vh;
+}
+
+.logos {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    margin-bottom: 20px;
+}
+
+.logo-img {
+  width: 100%;
+  max-width: 250px;
+  height: auto;
+  margin: 0 auto;
+}
+
+.center {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    width: 100%;
+    max-width: 800px;
+    padding: 20px;
+}
+
+.banner-error {
+    color: red;
+    font-size: 18px;
+    margin-bottom: 20px;
+    text-align: center;
+}
+
+#dynamic {
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+    width: 100%;
+}
+
+.question-wrap {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+}
+
+
+
+.answer {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+}
+
+button {
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    transition: opacity 0.3s;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+.bg-blue-500 {
+    background-color: #007bff;
+}
+
+.bg-blue-700 {
+    background-color: #0056b3;
+}
+
+.bg-green-500 {
+    background-color: #28a745;
+}
+
+.bg-green-700 {
+    background-color: #1e7e34;
+}
+
+.appointment-page {
+    .container {
+        width: 100%;
+        min-height: calc(100vh - 60px);
+        font-family: $font;
+    }
+
+    .question {
+        color: $dark-green;
+        font-weight: bold;
+        padding: 10px;
+    }
+
+    .center {
+        width: 100%;
+        max-width: 800px;
+        margin: 0 auto;
+        padding: 20px;
+    }
+
+    input[type="text"],
+    input[type="number"],
+    input[type="date"],
+    input[type="time"],
+    select {
+        background-color: rgba(255, 255, 255, 0.1);
+        border: 2px solid $pink;
+        border-radius: 30px;
+        color: $pink;
+        font-family: $font-textbox;
+        font-size: 16px;
+        height: 50px;
+        padding: 0 20px;
+        width: 100%;
+        outline: none;
+
+        &::placeholder {
+            color: white;
+            opacity: 0.5;
+        }
+
+        &:focus,
+        &:hover {
+            background: rgba(34, 50, 84, 0.1);
+            color: $pink;
+            border-color: lighten($pink, 10%);
+        }
+    }
+
+    button {
+        margin-top: 20px;
+        padding: 15px 30px;
+        font-size: 16px;
+        background-color: $blue;
+        color: $white;
+        border-radius: 30px;
+        transition: background-color $medium;
+
+        &:hover {
+            background-color: darken($blue, 10%);
+        }
+
+        &.back,
+        &.next {
+            width: 45%;
+            display: inline-block;
+        }
+    }
+
+    .back {
+        float: left;
+        &:before {
+            content: '⬅';
+            margin-right: 10px;
+        }
+    }
+
+    .next {
+        float: right;
+        &:after {
+            content: '➡';
+            margin-left: 10px;
+        }
+    }
+
+    .question-wrap {
+        margin-bottom: 20px;
+    }
+
+    .answer {
+        margin-top: 10px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+
+        label {
+            display: block;
+            width: 100%;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 2px solid $pink;
+            border-radius: 30px;
+            margin-bottom: 10px;
+            text-align: center;
+            font-family: $font-textbox;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color $medium, border-color $medium;
+            position: relative;
+            overflow: hidden;
+
+            &:focus-within,
+            &:hover {
+                background: $pink;
+                color: white;
+                border-color: lighten($pink, 10%);
+            }
+
+            input[type="radio"] {
+                position: absolute;
+                opacity: 0;
+                width: 100%;
+                height: 100%;
+                cursor: pointer;
+                z-index: 1;
+                font-weight: bold;
+
+                &:checked + .custom-radio {
+                    background-color: lighten($dark-green, 15%);
+                    border-color: $dark-green;
+                    color: $white;
+                }
+            }
+
+            .custom-radio {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                width: 100%;
+                pointer-events: none;
+                // Make sure clicks on the label but outside the radio go to the input
+            }
+        }
+    }
+}
+
+.date-picker-wrapper {
+  .date-picker {
+
+    select {
+      /* Estilos para los selectores de años y meses */
+      font-size: 1rem !important;
+      padding: 5px !important;
+      border-radius: 5px !important;
+      border: 1px solid var(--color-medium) !important;
+      background-color: var(--color-light) !important;
+      color: var(--color-darkest) !important;
+    }
+
+    .react-datepicker__input-container {
+      width: 100% !important;
+      display: flex;
+      justify-content: center;
+      input {
+        width: 100% !important;
+      }
+    }
+
+    .react-datepicker__month-dropdown,
+    .react-datepicker__year-dropdown {
+      /* Configuración de estilos compartidos para los dropdowns */
+      padding: 5px !important;
+      border-radius: 5px !important;
+      background-color: var(--color-light) !important;
+      border: 1px solid var(--color-medium) !important;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important;
+    }
+
+    .react-datepicker__month-container {
+      display: flex !important; /* Cambia a flex para controlar mejor el contenido */
+      justify-content: center !important; /* Centra el contenido */
+      align-items: center !important; /* Centra el contenido verticalmente */
+      padding: 10px !important; /* Espacio interno alrededor del contenedor */
+      border-radius: 5px !important; /* Borde redondeado */
+      background-color: #fff !important; /* Fondo blanco */
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1) !important; /* Sombra sutil */
+      max-height: 150px !important; /* Establece una altura máxima */
+      overflow-y: auto !important; /* Permite el desplazamiento vertical si el contenido excede la altura */
+    }
+  }
+
+  .react-datepicker__navigation--previous,
+  .react-datepicker__navigation--next {
+    display: none;
+  }
+
+  .react-datepicker__navigation--previous .react-datepicker__navigation-icon--previous,
+  .react-datepicker__navigation--next .react-datepicker__navigation-icon--next {
+    color: white !important; /* Cambia el color del icono */
+  }
+
+  .react-datepicker__navigation--previous:hover,
+  .react-datepicker__navigation--next:hover {
+    background-color: hsl(165, 80%, 45%) !important; /* Color cuando se pasa el cursor por encima */
+  }
+}
+
+.thank-you-message {
+  p {
+    margin: 10px 0;
+    color: $dark-green;
+    font-weight: bold;
+    padding: 10px;
+  }
+}
+
+.fasting-error {
+  color: red;
+  font-size: 18px;
+  margin-bottom: 20px;
+  text-align: center;
+
+  p {
+    margin: 10px 0;
+    color: $dark-green;
+    font-weight: bold;
+    padding: 10px;
+  }
+
+  button {
+    margin-top: 20px;
+  }
+}
+
+.slider-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
+  padding: 10px;
+}
+
+.slider-wrapper {
+  display: flex;
+  align-items: center;
+  width: 100%;
+  margin: 10px 0;
+}
+
+.slider {
+  flex: 1;
+  margin: 0 10px;
+  accent-color: $pink; /* Change slider color to pink */
+}
+
+.slider-button {
+  background-color: $pink;
+  color: white;
+  border: none;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 18px;
+  cursor: pointer;
+
+  &:hover {
+    background-color: darken($pink, 10%);
+  }
+}
+
+.value-display {
+  font-size: 16px;
+  margin-top: 10px;
+  color: $pink;
+}
+
+
+.info-icon {
+  cursor: pointer;
+  margin-left: 10px;
+  font-size: 18px;
+  color: $pink;
+  transition: color $short;
+
+  &:hover {
+      color: darken($pink, 10%);
+  }
+}
+
+.explanation {
+  margin-top: 10px;
+  background-color: $pink;
+  color: white;
+  padding: 10px;
+  border-radius: 5px;
+  font-size: 14px;
+  text-align: left;
+}
+
+.qr-code-container {
+  display: flex;
+  justify-content: center;
+  margin-top: 20px; // Ajusta según sea necesario
+}

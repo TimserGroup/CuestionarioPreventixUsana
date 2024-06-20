@@ -1,0 +1,47 @@
+$dark-green: hsl(165, 80%, 35%);
+$pink: #bd4c7f;
+/* SliderInput.scss */
+.slider-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    width: 100%;
+    padding: 10px;
+}
+
+.slider-wrapper {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    margin: 10px 0;
+}
+
+.slider {
+    flex: 1;
+    margin: 0 10px;
+    accent-color: $pink; // Change slider color to pink
+}
+
+.slider-button {
+    background-color: $pink;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 30px;
+    height: 30px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    cursor: pointer;
+
+    &:hover {
+        background-color: darken($pink, 10%);
+    }
+}
+
+.value-display {
+    font-size: 16px;
+    margin-top: 10px;
+    color: $pink;
+}
