@@ -4,7 +4,6 @@ import axios from 'axios';
 import { questions, initialState, reducer } from './questionData';
 import SliderInput from './SliderInput';
 import DateInput from './DateInput';
-import HourInput from './HourInput';
 import QRCode from 'qrcode.react';
 import './AppointmentForm.scss';
 import { toast, ToastContainer } from 'react-toastify';
@@ -15,20 +14,27 @@ const AppointmentForm = () => {
     const [state, dispatch] = useReducer(reducer, initialState);
     const [showFastingError, setShowFastingError] = useState(false);
     const [weight, setWeight] = useState(70);
-    const [height, setHeight] = useState(170); // Adjusted to centimeters for consistency
+    const [height, setHeight] = useState(170);
     const [birthDate, setBirthDate] = useState(null);
     const [lastMealTime, setLastMealTime] = useState(null);
+    const [fastingHours, setFastingHours] = useState('0');
     const [submittedData, setSubmittedData] = useState(null);
     const [responses, setResponses] = useState([]);
     const [cachedData, setCachedData] = useState({});
     const [isSubmitted, setIsSubmitted] = useState(false);
-    const [showExplanation, setShowExplanation] = useState(false); // Estado para manejar la visibilidad de la explicación
+    const [showExplanation, setShowExplanation] = useState(false);
 
-    const calculateFastingHours = (lastMealTime) => {
-        if (!lastMealTime) return 0;
-        const fastingMilliseconds = new Date() - new Date(lastMealTime);
-        const fastingHours = Math.floor(fastingMilliseconds / 3600000);
-        return fastingHours > 0 ? fastingHours : 0;
+    const calculateFastingHours = (selectedAnswer) => {
+        switch(selectedAnswer) {
+            case '4 Horas':
+                return '4';
+            case '5 a 6 Horas':
+                return '5-6';
+            case 'Más de 6 Horas':
+                return '6+';
+            default:
+                return '0';
+        }
     };
 
     const validateLastName = (lastName) => {
@@ -38,7 +44,7 @@ const AppointmentForm = () => {
     };
 
     const getMexicoCityTime = () => {
-        const mexicoCityOffset = -6; // GMT-6
+        const mexicoCityOffset = -6;
         const currentTime = new Date();
         const utcTime = currentTime.getTime() + currentTime.getTimezoneOffset() * 60000;
         return new Date(utcTime + (3600000 * mexicoCityOffset));
@@ -60,12 +66,10 @@ const AppointmentForm = () => {
         const sampleLocationQuestion = questions.find(q => q.field === 'sampleLocation');
         const sampleLocationValue = sampleLocationQuestion.mapping[selectedLocation] || null;
 
-        // Validate last names
         if (cachedData.patientLastName) {
             cachedData.patientLastName = validateLastName(cachedData.patientLastName);
         }
 
-        // Format detected conditions
         if (cachedData.detectedConditions && Array.isArray(cachedData.detectedConditions)) {
             cachedData.detectedConditions = cachedData.detectedConditions.join('; ');
         }
@@ -77,8 +81,8 @@ const AppointmentForm = () => {
             weight: parseFloat(cachedData.weight) || weight,
             height: parseFloat(cachedData.height) || height,
             birthDate: birthDate ? birthDate.toISOString() : null,
-            lastMealTime: lastMealTime ? lastMealTime : null,
-            fastingHours: calculateFastingHours(lastMealTime),
+            lastMealTime: lastMealTime,
+            fastingHours: fastingHours,
             sampleLocation: cachedData.sampleLocation || "default location",
             sampleLocationValue: sampleLocationValue,
             email: cachedData.email,
@@ -103,7 +107,7 @@ const AppointmentForm = () => {
             }
             toast.success('Formulario enviado con éxito');
             setSubmittedData(formattedData);
-            setIsSubmitted(true); // Set the form as submitted
+            setIsSubmitted(true);
         } catch (error) {
             toast.error(error.response?.data.message || "A ocurrido un error al enviar el cuestionario.");
         }
@@ -125,10 +129,11 @@ const AppointmentForm = () => {
             }
         }
 
-        if (currentQuestion.type === 'time' && currentQuestion.id === 'lastMealTimeQ') {
-            answer = lastMealTime;
-            const fastingHours = calculateFastingHours(answer);
-            if (fastingHours < 4) {
+        if (currentQuestion.type === 'choice' && currentQuestion.id === 'lastMealTimeQ') {
+            answer = getValues()[currentQuestion.field];
+            setLastMealTime(answer);
+            setFastingHours(calculateFastingHours(answer));
+            if (calculateFastingHours(answer) === '0') {
                 toast.error("Debe haber pasado al menos 4 horas desde tu última comida.");
                 return;
             }
@@ -142,7 +147,6 @@ const AppointmentForm = () => {
             }
         }
 
-        // Validate email confirmation
         if (currentQuestion.field === 'confirmEmail') {
             const email = cachedData.email;
             if (email !== answer) {
@@ -151,7 +155,6 @@ const AppointmentForm = () => {
             }
         }
 
-        // Validate numeric inputs
         const numericFields = ['firstMenstruationAge', 'firstSexualRelationAge', 'papanicolaouYear', 'colposcopyYear', 'naturalBirths', 'cesareans', 'abortionCount'];
         if (numericFields.includes(currentQuestion.field)) {
             const numericAnswer = parseInt(answer, 10);
@@ -205,7 +208,7 @@ const AppointmentForm = () => {
                     const nextIndex = questions.findIndex(q => q.id === nextQuestionId);
                     if (nextIndex !== -1) {
                         dispatch({ type: 'setIndex', payload: nextIndex });
-                        setValue(currentQuestion.field, ''); 
+                        setValue(currentQuestion.field, '');
                     }
                 }
             } else {
@@ -228,7 +231,7 @@ const AppointmentForm = () => {
         setShowFastingError(false);
         setResponses([]);
         setCachedData({});
-        setIsSubmitted(false); // Reset the submission state
+        setIsSubmitted(false);
     };
 
     const currentQuestion = questions[state.index];
@@ -242,7 +245,7 @@ const AppointmentForm = () => {
     const handleFormSubmit = (e) => {
         e.preventDefault();
         const unansweredQuestions = [];
-        
+
         questions.forEach((question, index) => {
             const answer = getValues()[question.field];
             if (!answer) {
@@ -260,10 +263,11 @@ const AppointmentForm = () => {
     return (
         <div className="appointment-page">
             <ToastContainer />
-            <div className="logos">
-                <img src="/Logo-Preventix.png" alt="logo" className="logo-img"/>
-                <img src="/usanalogo.png" alt="logousana" className="logo-img"/>
+            <div className="logos"> 
+                <img src="/Logo-Preventix.png" alt="logo" className="logo-img"/> 
+                <img src="/usanalogo.png" alt="logousana" className="logo-img"/> 
             </div>
+            
 
             <div className="container">
                 {isSubmitted ? (
@@ -310,10 +314,10 @@ const AppointmentForm = () => {
                                                 label={currentQuestion.label || currentQuestion.question}
                                                 min={currentQuestion.min}
                                                 max={currentQuestion.max}
-                                                value={Number(currentQuestion.field === 'weight' ? weight : height)} // Ensure the value is a number
+                                                value={Number(currentQuestion.field === 'weight' ? weight : height)}
                                                 onChange={(e) => currentQuestion.field === 'weight' ? setWeight(Number(e.target.value)) : setHeight(Number(e.target.value))}
                                                 unit={currentQuestion.unit}
-                                                step={1} // Adjust step to 1 for whole number increments
+                                                step={1}
                                             />
                                         ) : currentQuestion.type === 'date' ? (
                                             <DateInput
@@ -339,11 +343,8 @@ const AppointmentForm = () => {
                                                         </div>
                                                     ))
                                                 ) : (
-                                                    currentQuestion.type === 'time' && currentQuestion.id === 'lastMealTimeQ' ? (
-                                                        <HourInput
-                                                            selectedDate={lastMealTime}
-                                                            setSelectedDate={setLastMealTime}
-                                                        />
+                                                    currentQuestion.type === 'text' && currentQuestion.validation?.type === 'numeric' ? (
+                                                        <input type="number" {...register(currentQuestion.field)} inputMode="numeric" />
                                                     ) : (
                                                         <input type={currentQuestion.type} {...register(currentQuestion.field)} />
                                                     )
