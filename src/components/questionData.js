@@ -35,9 +35,9 @@ export const questions = [
     {
         id: 'lastMealTimeQ',
         question: '¿A qué hora fue tu último alimento?',
-        answers: [],
+        answers: ['4 Horas', '5 a 6 Horas', 'Más de 6 Horas'],
         field: 'lastMealTime',
-        type: 'time',
+        type: 'choice',
         nextq: 'lastMealTypeQ'
     },
     {
