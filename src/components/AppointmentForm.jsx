@@ -26,12 +26,12 @@ const AppointmentForm = () => {
 
     const calculateFastingHours = (selectedAnswer) => {
         switch(selectedAnswer) {
-            case '4 Horas':
-                return '4';
-            case '5 a 6 Horas':
-                return '5-6';
-            case 'Más de 6 Horas':
-                return '6+';
+            case '6 Horas':
+                return '6';
+            case '7 a 8 Horas':
+                return '7-8';
+            case 'Más de 8 Horas':
+                return '8+';
             default:
                 return '0';
         }
@@ -134,7 +134,7 @@ const AppointmentForm = () => {
             setLastMealTime(answer);
             setFastingHours(calculateFastingHours(answer));
             if (calculateFastingHours(answer) === '0') {
-                toast.error("Debe haber pasado al menos 4 horas desde tu última comida.");
+                toast.error("Debe haber pasado al menos 6 horas desde tu última comida.");
                 return;
             }
         }
