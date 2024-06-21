@@ -23,7 +23,7 @@ export const questions = [
     },
     {
         id: 'fastingHoursQ',
-        question: 'Cumple mínimo con 4 horas de ayuno',
+        question: 'Cumple mínimo con 6 horas de ayuno',
         answers: ['No', 'Sí'],
         field: 'fastingHours',
         type: 'choice',
@@ -35,7 +35,7 @@ export const questions = [
     {
         id: 'lastMealTimeQ',
         question: '¿A qué hora fue tu último alimento?',
-        answers: ['4 Horas', '5 a 6 Horas', 'Más de 6 Horas'],
+        answers: ['6 Horas', '7 a 8 Horas', 'Más de 8 Horas'],
         field: 'lastMealTime',
         type: 'choice',
         nextq: 'lastMealTypeQ'
