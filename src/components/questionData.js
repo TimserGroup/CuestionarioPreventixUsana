@@ -148,11 +148,14 @@ export const questions = [
         id: 'sampleLocation',
         question: 'Lugar de toma de muestra',
         answers: [
-            'Corporativo',
+            'Corporativo Usana',
         ],
         field: 'sampleLocation',
         type: 'choice',
-        nextq: 'docFQ'
+        nextq: 'docFQ',
+        mapping: {
+            'Corporativo Usana' : 2371
+        }
     },
     {
         id: 'docFQ',
